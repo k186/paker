@@ -1,7 +1,7 @@
-define('paker/components/A/A', ['paker/utils/util'], function (util) {
+define('paker/components/A/A',function(require,exports,module) {
 
   var A = {
-    A: util.AA
+    A: require("paker/utils/util").AA
   };
 
   return A;

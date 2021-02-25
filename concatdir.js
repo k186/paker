@@ -1,9 +1,11 @@
 const devFolder = 'dev';
 const compileFolder = 'src';
-const concatDir = [`${devFolder}/components/`];
+const concatDir = [`/components/`, `/pages/`];
 const fs = require('fs');
 const path = require('path');
-let src = path.resolve(`./${devFolder}`)
+const util = require('./utils');
+const src = util.src;
+const fixPath = util.fixPath;
 
 function readFileList(dir, filesList = []) {
   const files = fs.readdirSync(dir);
@@ -20,10 +22,6 @@ function readFileList(dir, filesList = []) {
   return filesList;
 }
 
-function fixPathToKayak(url) {
-  let name = url.replace(src, '').replace('.js', '')
-  return name.substring(1, name.length).replace(/\\/g, "/")
-}
 
 function concatFile(baseOpt = {}) {
   let list = readFileList(src);
@@ -31,7 +29,7 @@ function concatFile(baseOpt = {}) {
   list.forEach(item => {
     //todo 这里只处理 concatDir index.js 和 非 concatDir的全js？？
     let dir = item.dir.replace(devFolder, compileFolder);
-    let name = fixPathToKayak(item.path)
+    let name = fixPath(item.path)
 
     listOpt.push({
       ...baseOpt,
@@ -41,11 +39,23 @@ function concatFile(baseOpt = {}) {
         dir,
         amd: {id: name},
         paths: ((id) => {
-          return fixPathToKayak(id)
-        })
+          return fixPath(id)
+        }),
+        sourcemap: false
       },
-      external() {
-        /*默认全部不打包，指定目录下的合并*/
+      external(id, parentId,) {
+        /**
+         * node_modules 待处理
+         * concatDir  合并
+         * */
+        let url = fixPath(parentId)
+        let result = true;
+        for (let i = 0; i < concatDir.length; i++) {
+          if (url.indexOf(concatDir[i]) > -1) {
+            result = false
+            break;
+          }
+        }
         return true
       },
     })
