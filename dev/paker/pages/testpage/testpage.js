@@ -5,7 +5,6 @@ import tpl from './page.tpl'
 export default {
   enter() {
     util.format(111)
-    console.log(Ac.A)
     setTimeout(() => {
       new Vue({
         el: document.querySelector('.J_Main'),

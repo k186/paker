@@ -30,43 +30,43 @@ function concatFile(baseOpt = {}) {
     //todo 这里只处理 concatDir index.js 和 非 concatDir的全js？？
     let dir = item.dir.replace(devFolder, compileFolder);
     let name = fixPath(item.path)
-
-    listOpt.push({
-      ...baseOpt,
-      input: item.path,
-      output: {
-        ...baseOpt.output,
-        dir,
-        amd: {id: name},
-        paths: ((id) => {
-          return fixPath(id)
-        }),
-        sourcemap: false
-      },
-      external(id, parentId,) {
-        /**
-         * node_modules 待处理
-         * concatDir  合并
-         * */
-        let url = fixPath(parentId)
-        let result = true;
-        for (let i = 0; i < concatDir.length; i++) {
-          if (url.indexOf(concatDir[i]) > -1) {
-            result = true
-            break;
+    if (item.name.split('.')[item.name.split('.').length - 1] !== 'tpl') {
+      listOpt.push({
+        ...baseOpt,
+        input: item.path,
+        output: {
+          ...baseOpt.output,
+          dir,
+          amd: {id: name},
+          paths: ((id) => {
+            return fixPath(id)
+          }),
+          sourcemap: false
+        },
+        external(id, parentId,) {
+          /**
+           * node_modules 待处理
+           * concatDir  合并
+           * */
+          let url = fixPath(parentId)
+          let result = true;
+          for (let i = 0; i < concatDir.length; i++) {
+            if (url.indexOf(concatDir[i]) > -1) {
+              result = true
+              break;
+            }
           }
-        }
-        //tpl 直接合并到js
-        let isTpl = id.split('.')
-        if (isTpl[isTpl.length - 1] === 'tpl') {
-          result = false
-        }
-        return result
-      },
-    })
+          //tpl 直接合并到js
+          let isTpl = id.split('.')
+          if (isTpl[isTpl.length - 1] === 'tpl') {
+            result = false
+          }
+          return result
+        },
+      })
+    }
   })
   return listOpt
 }
 
-concatFile()
 module.exports = concatFile

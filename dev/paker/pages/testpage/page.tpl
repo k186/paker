@@ -1,3 +1,3 @@
 <div class="page" @click="testA">
-    {{test}}
+    {{test}}{{a}}
 </div>

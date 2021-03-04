@@ -78,11 +78,11 @@ const baseOpt = {
     string({
       include: "**/*.tpl",
     }),
-    copy({
-      targets:[
-        {src:'dev/**/*.tpl',dest:'src/**/*.tpl'}
-      ]
-    }),
+    // copy({
+    //   targets:[
+    //     {src:'dev/**/*.tpl',dest:'src'}
+    //   ]
+    // }),
     testPlugin()
   ]
 }
