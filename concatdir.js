@@ -52,11 +52,16 @@ function concatFile(baseOpt = {}) {
         let result = true;
         for (let i = 0; i < concatDir.length; i++) {
           if (url.indexOf(concatDir[i]) > -1) {
-            result = false
+            result = true
             break;
           }
         }
-        return true
+        //tpl 直接合并到js
+        let isTpl = id.split('.')
+        if (isTpl[isTpl.length - 1] === 'tpl') {
+          result = false
+        }
+        return result
       },
     })
   })

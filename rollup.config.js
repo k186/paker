@@ -1,7 +1,9 @@
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
-
+import Str from "rollup-plugin-string";
+import copy from 'rollup-plugin-copy'
+const string = Str.string;
 const concatdir = require('./concatdir.js')
 const util = require('./utils');
 const fixPath = util.fixPath;
@@ -9,10 +11,6 @@ const testPlugin = function () {
   let parseCode = ''
   let fileName = ''
   return {
-    transform(code, id) {
-      // console.log(code)
-      // console.log(id)
-    },
     resolveFileUrl() {
     },//用来动态修改id
     renderChunk(code, chunk, options) {
@@ -25,9 +23,6 @@ const testPlugin = function () {
         //获取_interopDefaultLegacy 变量名
         let dependsStr = code.match(funcReg)[0].match(/\(.*\)/g)[0];
         let dependsVar = dependsStr.substring(1, dependsStr.length - 1).split(',')
-        console.log(dependsStr)
-        console.log(dependsVar)
-
 
         //console.log(dependsVar)
         let depends = []
@@ -58,7 +53,7 @@ const testPlugin = function () {
         .replace(funcReg, 'function(require,exports,module)')// 参数替换
         //es module 兼容
         .replace("(exports,", "(module.exports,")
-        .replace("'default' in e ? e : { 'default': e }","'default' in e ? e.default : e")
+        .replace("'default' in e ? e : { 'default': e }", "'default' in e ? e.default : e")
     },
   }
 }
@@ -78,7 +73,15 @@ const baseOpt = {
     nodeResolve(),
     commonjs(),
     babel({
-      exclude: 'node_modules/**' // 只编译我们的源代码
+      exclude: ['node_modules/**', '**/*.tpl'] // 只编译我们的源代码
+    }),
+    string({
+      include: "**/*.tpl",
+    }),
+    copy({
+      targets:[
+        {src:'dev/**/*.tpl',dest:'src/**/*.tpl'}
+      ]
     }),
     testPlugin()
   ]
