@@ -1,13 +1,24 @@
-define('paker/components/A/index',function(require,exports,module) {
+define('paker/components/A/index', function () {
 
-  function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e.default : e; }
+  var util = {
+    format: function format(arg) {
+      return arg;
+    },
+    testName: function testName(ddd) {
+      return ddd;
+    }
+  };
+  var AA = function AA(ee) {
+    return e;
+  };
 
-  var util__default = /*#__PURE__*/_interopDefaultLegacy(require("paker/utils/util"));
-  var A__default = /*#__PURE__*/_interopDefaultLegacy(require("paker/components/A/A"));
+  var A = {
+    A: AA
+  };
 
   var index = {
-    helper: util__default.format,
-    A: A__default
+    helper: util.format,
+    A: A
   };
 
   return index;

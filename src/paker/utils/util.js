@@ -1,4 +1,4 @@
-define('paker/utils/util', function(require,exports,module) {
+define('paker/utils/util', ['exports'], function (exports) {
 
   var util = {
     format: function format(arg) {
@@ -12,9 +12,9 @@ define('paker/utils/util', function(require,exports,module) {
     return e;
   };
 
-  module.exports.AA = AA;
-  module.exports.default = util;
+  exports.AA = AA;
+  exports.default = util;
 
-  Object.defineProperty(module.exports, '__esModule', { value: true });
+  Object.defineProperty(exports, '__esModule', { value: true });
 
 });

@@ -1,23 +1,17 @@
-define('paker/pages/testpage/testpage', function () {
+define('paker/pages/vuepage/vuepage', ['paker/components/comp1/comp1'], function (comp1) {
 
-  var util = {
-    format: function format(arg) {
-      return arg;
-    },
-    testName: function testName(ddd) {
-      return ddd;
-    }
-  };
+  function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
-  var tpl = "<div class=\"page\" @click=\"testA\">\r\n    {{test}}{{a}}\r\n</div>";
+  var comp1__default = /*#__PURE__*/_interopDefaultLegacy(comp1);
 
-  var testpage = {
+  var vuepage = {
     enter: function enter() {
-      util.format(111);
       setTimeout(function () {
         new Vue({
           el: document.querySelector('.J_Main'),
-          template: tpl,
+          components: {
+            comp1: comp1__default['default']
+          },
           data: function data() {
             return {
               test: 12312
@@ -34,6 +28,6 @@ define('paker/pages/testpage/testpage', function () {
     }
   };
 
-  return testpage;
+  return vuepage;
 
 });

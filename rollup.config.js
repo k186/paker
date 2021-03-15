@@ -3,6 +3,7 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 import Str from "rollup-plugin-string";
 import copy from 'rollup-plugin-copy'
+import vue from 'rollup-plugin-vue'
 const string = Str.string;
 const concatdir = require('./concatdir.js')
 const util = require('./utils');
@@ -58,10 +59,6 @@ const testPlugin = function () {
   }
 }
 const baseOpt = {
-  watch: {
-    exclude: 'node_modules/**',
-    include: 'dev/**'
-  },
   output: {
     format: 'amd', /*'iife',*/
     strict: false,
@@ -73,7 +70,7 @@ const baseOpt = {
     nodeResolve(),
     commonjs(),
     babel({
-      exclude: ['node_modules/**', '**/*.tpl'] // 只编译我们的源代码
+      exclude: ['node_modules/**', '**/*.tpl','**/*.vue'] // 只编译我们的源代码
     }),
     string({
       include: "**/*.tpl",
@@ -83,6 +80,7 @@ const baseOpt = {
     //     {src:'dev/**/*.tpl',dest:'src'}
     //   ]
     // }),
+   // vue(),
     testPlugin()
   ]
 }
